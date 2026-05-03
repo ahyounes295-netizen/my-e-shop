@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر أورورا | الرئيسية</title>
+    <meta name="description" content="تسوق أفضل المنتجات التقنية والإكسسوارات العصرية من متجر أورورا.">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Using a lightweight icon font for basic icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">أورورا.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="login.html">تسجيل الدخول</a></li>
+            </ul>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+                <button id="theme-toggle" class="theme-toggle">🌙</button>
+                <a href="cart.html" class="cart-icon">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>ارتقِ بأسلوب حياتك <br> مع أحدث التقنيات</h1>
+                <p>اكتشف مجموعتنا الحصرية من الأجهزة الذكية والإكسسوارات المصممة لتناسب أسلوب حياتك العصري. تصميم أنيق،
+                    أداء استثنائي.</p>
+                <a href="shop.html" class="btn btn-primary">تسوق الآن</a>
+                <a href="#featured" class="btn btn-outline" style="margin-right: 1rem;">استكشف المزيد</a>
+            </div>
+            <div class="hero-image"
+                style="flex: 1; display: flex; justify-content: center; position: relative; z-index: 1;">
+                <!-- Just a nice visual placeholder for the hero using emojis or CSS art if image isn't available, but we'll use one of our images -->
+                <img src="../../brain/d0bc764e-a39f-47e5-9c8e-62b7b6c832f0/smartwatch_product_1777843619510.png"
+                    alt="Hero Product"
+                    style="max-width: 100%; border-radius: 20px; transform: scale(1.1); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));">
+            </div>
+        </section>
+
+        <section id="featured" style="margin-top: 5rem;">
+            <h2 class="section-title">منتجات مميزة</h2>
+            <div class="products-grid" id="featured-products">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 متجر أورورا. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('data/products.json');
+                const products = await response.json();
+                const featured = products.filter(p => p.featured);
+
+                const grid = document.getElementById('featured-products');
+
+                featured.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <a href="product.html?id=${product.id}" class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}">
+                        </a>
+                        <div class="product-category">${product.category === 'audio' ? 'صوتيات' : product.category === 'wearables' ? 'أجهزة يمكن ارتداؤها' : 'إكسسوارات'}</div>
+                        <a href="product.html?id=${product.id}" class="product-name">${product.name}</a>
+                        <div class="product-footer">
+                            <div class="product-price">$${product.price}</div>
+                            <button class="add-to-cart" onclick="addToCart(${product.id})" title="أضف للسلة">
+                                <span class="material-symbols-outlined">add</span>
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Error loading products:", error);
+            }
+        });
+
+        async function addToCart(id) {
+            try {
+                const response = await fetch('data/products.json');
+                const products = await response.json();
+                const product = products.find(p => p.id === id);
+
+                if (product) {
+                    const cart = getCart();
+                    const existingItem = cart.find(item => item.id === id);
+
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: 1
+                        });
+                    }
+
+                    saveCart(cart);
+                    showToast('تمت إضافة المنتج إلى السلة بنجاح!');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+
+</html>

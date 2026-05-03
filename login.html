@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر أورورا | تسجيل الدخول</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">أورورا.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="login.html" style="color: var(--secondary-color);">تسجيل الدخول</a></li>
+            </ul>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+                <button id="theme-toggle" class="theme-toggle">🌙</button>
+                <a href="cart.html" class="cart-icon">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main style="display: flex; align-items: center; justify-content: center;">
+        <div class="login-container">
+            <h2>تسجيل الدخول</h2>
+            <form onsubmit="event.preventDefault(); window.location.href='index.html';">
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" required placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">تسجيل الدخول</button>
+            </form>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                ليس لديك حساب؟ <a href="#" style="color: var(--secondary-color); font-weight: 500;">إنشاء حساب</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 متجر أورورا. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

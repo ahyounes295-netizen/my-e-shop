@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر أورورا | المتجر</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html" class="logo">أورورا.</a>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="shop.html">المتجر</a></li>
+                <li><a href="login.html">تسجيل الدخول</a></li>
+            </ul>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+                <button id="theme-toggle" class="theme-toggle">🌙</button>
+                <a href="cart.html" class="cart-icon">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="shop-header">
+            <h1 class="section-title" style="margin-bottom: 0;">جميع المنتجات</h1>
+            
+            <div class="filters">
+                <div class="search-bar">
+                    <span class="material-symbols-outlined" style="color: var(--text-secondary)">search</span>
+                    <input type="text" id="search-input" placeholder="ابحث عن منتج...">
+                </div>
+                
+                <select id="category-filter">
+                    <option value="all">جميع الفئات</option>
+                    <option value="audio">صوتيات</option>
+                    <option value="wearables">أجهزة يمكن ارتداؤها</option>
+                    <option value="accessories">إكسسوارات</option>
+                </select>
+
+                <select id="sort-filter">
+                    <option value="default">الترتيب الافتراضي</option>
+                    <option value="price-asc">السعر: من الأقل للأعلى</option>
+                    <option value="price-desc">السعر: من الأعلى للأقل</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="products-grid" id="shop-products">
+            <!-- Loading indicator -->
+            <p style="text-align: center; width: 100%; grid-column: 1 / -1; color: var(--text-secondary);">جاري تحميل المنتجات...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 متجر أورورا. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/shop.js"></script>
+</body>
+</html>
