@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     setupThemeToggle();
+    setupHamburgerMenu();
 });
 
 function getCart() {
@@ -65,4 +66,34 @@ function setupThemeToggle() {
 function updateThemeIcon(btn, theme) {
     // using simple unicode icons for no-dependency approach
     btn.innerHTML = theme === 'light' ? '🌙' : '☀️';
+}
+
+function setupHamburgerMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    
+    if (!menuToggle || !mobileNav) return;
+    
+    // Toggle menu on hamburger button click
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mobileNav.classList.toggle('active');
+    });
+    
+    // Close menu when a link is clicked
+    const mobileNavLinks = mobileNav.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            mobileNav.classList.remove('active');
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('header')) {
+            menuToggle.classList.remove('active');
+            mobileNav.classList.remove('active');
+        }
+    });
 }
