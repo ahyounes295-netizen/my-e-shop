@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Premium Wireless Headphones",
-    "price": 299.99,
+    "price": 19.99,
     "category": "audio",
     "description": "Experience true audio excellence with our premium wireless over-ear headphones. Featuring active noise cancellation, 30-hour battery life, and a sleek modern design.",
     "image": "../../brain/headphone_product.jpg",
@@ -11,7 +11,7 @@
   {
     "id": 2,
     "name": "Minimalist Tech Smartwatch",
-    "price": 199.99,
+    "price": 14.99,
     "category": "wearables",
     "description": "Stay connected and track your fitness goals with this sleek, modern smartwatch featuring a vibrant OLED display and premium metal casing.",
     "image": "../../brain/smartwatch_product.jpg",
@@ -20,7 +20,7 @@
   {
     "id": 3,
     "name": "Urban Explorer Backpack",
-    "price": 89.99,
+    "price": 9.99,
     "category": "accessories",
     "description": "A stylish, water-resistant backpack designed for the modern professional. Includes a dedicated laptop sleeve and multiple organization pockets.",
     "image": "../../brain/backpack_product.jpg",
@@ -29,7 +29,7 @@
   {
     "id": 4,
     "name": "Pro Mechanical Keyboard",
-    "price": 149.99,
+    "price": 49.99,
     "category": "accessories",
     "description": "Elevate your typing experience with this premium 65% layout mechanical keyboard. Features custom keycaps, tactile switches, and minimal design.",
     "image": "../../brain/keyboard_product.jpg",

@@ -61,6 +61,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Store current product in a global var so the add to cart function can access it
         window.currentProduct = product;
+        window.currentProductId = parseInt(productId);
+
+        // Show and setup reviews section
+        document.getElementById('reviews-section').style.display = 'block';
+        setupReviewsSection(parseInt(productId));
 
     } catch (error) {
         console.error("Error loading product:", error);
@@ -109,4 +114,128 @@ function addToCartFromDetail(id) {
         currentQty = 1;
         document.getElementById('qty-val').textContent = currentQty;
     }
+}
+
+// Reviews Functions
+function getProductReviews(productId) {
+    const reviews = localStorage.getItem(`reviews_product_${productId}`);
+    return reviews ? JSON.parse(reviews) : [];
+}
+
+function saveProductReview(productId, review) {
+    const reviews = getProductReviews(productId);
+    reviews.push({
+        id: Date.now(),
+        author: review.author,
+        rating: review.rating,
+        comment: review.comment,
+        date: new Date().toLocaleDateString('ar-SA')
+    });
+    localStorage.setItem(`reviews_product_${productId}`, JSON.stringify(reviews));
+}
+
+function setupReviewsSection(productId) {
+    const reviewForm = document.getElementById('review-form');
+    const ratingSelector = document.getElementById('rating-selector');
+    const reviewsList = document.getElementById('reviews-list');
+    let selectedRating = 0;
+
+    // Star rating selector
+    const stars = ratingSelector.querySelectorAll('.star');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.getAttribute('data-rating'));
+            document.getElementById('rating-value').value = selectedRating;
+            document.getElementById('rating-label').textContent = `تقييمك: ${selectedRating} من 5`;
+            
+            // Update star appearance
+            stars.forEach(s => {
+                if (parseInt(s.getAttribute('data-rating')) <= selectedRating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+
+        star.addEventListener('mouseover', () => {
+            const hoverRating = parseInt(star.getAttribute('data-rating'));
+            stars.forEach(s => {
+                if (parseInt(s.getAttribute('data-rating')) <= hoverRating) {
+                    s.style.opacity = '1';
+                } else {
+                    s.style.opacity = '0.5';
+                }
+            });
+        });
+    });
+
+    ratingSelector.addEventListener('mouseleave', () => {
+        stars.forEach(s => {
+            if (parseInt(s.getAttribute('data-rating')) <= selectedRating) {
+                s.style.opacity = '1';
+            } else {
+                s.style.opacity = '0.5';
+            }
+        });
+    });
+
+    // Form submission
+    reviewForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const author = document.getElementById('reviewer-name').value.trim();
+        const comment = document.getElementById('review-comment').value.trim();
+        const rating = parseInt(document.getElementById('rating-value').value);
+
+        if (!author || !comment || rating === 0) {
+            showToast('يرجى ملء جميع الحقول واختيار تقييماً');
+            return;
+        }
+
+        // Save review
+        saveProductReview(productId, {
+            author,
+            rating,
+            comment
+        });
+
+        // Reset form
+        reviewForm.reset();
+        document.getElementById('rating-value').value = '0';
+        document.getElementById('rating-label').textContent = 'اختر تقييماً';
+        stars.forEach(s => s.classList.remove('active'));
+        selectedRating = 0;
+
+        showToast('شكراً! تم إضافة تقييمك بنجاح');
+        
+        // Reload reviews
+        displayReviews(productId);
+    });
+
+    // Load and display existing reviews
+    displayReviews(productId);
+}
+
+function displayReviews(productId) {
+    const reviewsList = document.getElementById('reviews-list');
+    const reviews = getProductReviews(productId);
+
+    if (reviews.length === 0) {
+        reviewsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد تقييمات حتى الآن. كن أول من يقيّم هذا المنتج!</p>';
+        return;
+    }
+
+    reviewsList.innerHTML = reviews.map(review => `
+        <div class="review-item">
+            <div class="review-header">
+                <div>
+                    <div class="review-author">${review.author}</div>
+                    <div class="review-date">${review.date}</div>
+                </div>
+                <div class="review-rating">${'⭐'.repeat(review.rating)}</div>
+            </div>
+            <div class="review-comment">${review.comment}</div>
+        </div>
+    `).join('');
 }
